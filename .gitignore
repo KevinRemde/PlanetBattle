@@ -2,3 +2,7 @@
 .vs/config/applicationhost.config
 *.suo
 PlanetBattleLogic/obj/Debug/DesignTimeResolveAssemblyReferencesInput.cache
+*.suo
+*.config
+.vs/PlanetBattle/v14/.suo
+*.cache
