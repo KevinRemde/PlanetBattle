@@ -1,1 +1,4 @@
 *.suo
+.vs/config/applicationhost.config
+*.suo
+PlanetBattleLogic/obj/Debug/DesignTimeResolveAssemblyReferencesInput.cache
