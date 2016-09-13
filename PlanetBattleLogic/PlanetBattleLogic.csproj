@@ -47,8 +47,13 @@
     <Compile Include="Models\Ship.cs" />
     <Compile Include="Models\ShipBattle.cs" />
     <Compile Include="Models\Universe.cs" />
+    <Compile Include="Models\PlayerTurn.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Utilities.cs" />
+    <Compile Include="Models\Round.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="ClassDiagram1.cd" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

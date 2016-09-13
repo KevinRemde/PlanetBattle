@@ -9,6 +9,8 @@ namespace PlanetBattleLogic
 {
     public static class Game
     {
+        public ICollection<Player> Players { get; set; };
+
         public static void SetupGame()
         {
 
