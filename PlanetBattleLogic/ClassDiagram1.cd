@@ -29,7 +29,7 @@
     </TypeIdentifier>
   </Class>
   <Class Name="PlanetBattleLogic.Models.ShipBattle" Collapsed="true">
-    <Position X="2.25" Y="2.25" Width="1.5" />
+    <Position X="2.25" Y="1.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAEAAAAAAAAAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Models\ShipBattle.cs</FileName>
@@ -43,14 +43,14 @@
     </TypeIdentifier>
   </Class>
   <Class Name="PlanetBattleLogic.Models.Round" Collapsed="true">
-    <Position X="6.25" Y="1.5" Width="1.5" />
+    <Position X="5.75" Y="1.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Models\Round.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="PlanetBattleLogic.Models.PlayerTurn" Collapsed="true">
-    <Position X="8.25" Y="1.5" Width="1.5" />
+    <Position X="5.75" Y="0.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Models\PlayerTurn.cs</FileName>
