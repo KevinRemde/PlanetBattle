@@ -10,7 +10,7 @@ namespace PlanetBattleLogic
 {
     public static class GameControl
     {
-        public static void SetupGame()
+        public static Game SetupGame()
         {
             var universe = new Universe(100, 100);
             universe.Planets = CreateAndAddPlanets();
@@ -19,11 +19,14 @@ namespace PlanetBattleLogic
             game.Universe = universe;
             game.Players = CreateAndAddPlayers();
             int nextId = 1;
+            AssignPlayersToPlanets(universe.Planets, game.Players);
             foreach (Player player in game.Players)
             {
-                CreateAndAddShips(player.HomePlanet, nextId);
+                var shipsForThisPlayer = CreateAndAddShips(player.HomePlanet, nextId);
+                player.HomePlanet.Ships = shipsForThisPlayer;
             }
-            AssignPlayersToPlanets(universe.Planets, game.Players);
+
+            return game;
         }
 
         public static Ship FightBattle(Ship ship1, Ship ship2)
@@ -95,8 +98,8 @@ namespace PlanetBattleLogic
 
             var planets = new Collection<Planet>();
             planets.Add(planetD);
-            planets.Add(planetK);
             planets.Add(planetX);
+            planets.Add(planetK);
             return planets;
         }
 
@@ -125,6 +128,8 @@ namespace PlanetBattleLogic
         {
             players.FirstOrDefault().HomePlanet = planets.FirstOrDefault();
             players.LastOrDefault().HomePlanet = planets.LastOrDefault();
+            planets.FirstOrDefault().Owner = players.FirstOrDefault();
+            planets.LastOrDefault().Owner = players.LastOrDefault();
         }
 
     }

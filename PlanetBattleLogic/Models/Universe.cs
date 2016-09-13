@@ -26,6 +26,7 @@ namespace PlanetBattleLogic.Models
             var random = new Random();
             foreach(Planet p in this.Planets)
             {
+                p.Location = new Coordinates();
                 p.Location.X = random.Next(10, this.Width - 10);
                 p.Location.Y = random.Next(10, this.Height - 10);
 

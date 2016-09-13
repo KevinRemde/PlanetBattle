@@ -23,15 +23,15 @@ namespace PlanetBattleLogic.Models
 
         public Planet Destination { get; set; }
 
-        public void Move (double unitsToMove)
+        public void Move (double unitsToMove, Planet destinationPlanet)
         {
-            if (this.Destination == null)
+            if (destinationPlanet== null)
             {
                 // No destination set.
                 return;
             }
             
-            Coordinates destination = this.Destination.Location;
+            Coordinates destination = destinationPlanet.Location;
             if (destination == this.Location)
             {
                 // Already arrived at destination
@@ -42,20 +42,18 @@ namespace PlanetBattleLogic.Models
 
             if (unitsToMove > distanceToDestination)
             {
-                this.Location = this.Destination.Location;
+                this.Location = destinationPlanet.Location;
             }
             else
             {
-                double angle = Utilities.GetAngleOfLineBetweenTwoPoints(this.Location, this.Destination.Location);
+                double angle = Utilities.GetAngleOfLineBetweenTwoPoints
+                    (
+                    this.Location, 
+                    destinationPlanet.Location
+                    );
                 Coordinates newLocation = Utilities.GetDestinationLocation(this.Location, angle, unitsToMove);
-
-                //var newX = this.Location.X + Math.Cos(angle);
-                //var newY = this.Location.Y + Math.Sin(angle);
-                //this.Location.X = newX;
-                //this.Location.Y = newY;
+                this.Location = newLocation;
             }
-
-
         }
 
 
