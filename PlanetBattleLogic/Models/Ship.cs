@@ -8,6 +8,15 @@ namespace PlanetBattleLogic.Models
 {
     public class Ship
     {
+        public Ship()
+        {
+        }
+        public Ship(int id, Player owner, Coordinates location)
+        {
+            Id = id;
+            Owner = owner;
+            Location = location;
+        }
         public int Id { get; set; }
         public Player Owner { get; set; }
         public Coordinates Location { get; set; }
@@ -29,7 +38,7 @@ namespace PlanetBattleLogic.Models
                 return;
             }
 
-            var distanceToDestination = DistanceToDestination(this.Location, destination);
+            var distanceToDestination = Utilities.DistanceToDestination(this.Location, destination);
 
             if (unitsToMove > distanceToDestination)
             {
@@ -37,31 +46,18 @@ namespace PlanetBattleLogic.Models
             }
             else
             {
-                double angle = GetAngleOfLineBetweenTwoPoints(this.Location, this.Destination.Location);
+                double angle = Utilities.GetAngleOfLineBetweenTwoPoints(this.Location, this.Destination.Location);
+                Coordinates newLocation = Utilities.GetDestinationLocation(this.Location, angle, unitsToMove);
 
-                var newX = this.Location.X + Math.Cos(angle);
-                var newY = this.Location.Y + Math.Sin(angle);
-                this.Location.X = newX;
-                this.Location.Y = newY;
+                //var newX = this.Location.X + Math.Cos(angle);
+                //var newY = this.Location.Y + Math.Sin(angle);
+                //this.Location.X = newX;
+                //this.Location.Y = newY;
             }
 
 
         }
 
-        private static double DistanceToDestination(Coordinates start, Coordinates end)
-        {
-            var xDiff = end.X - start.X;
-            var yDiff = end.Y - start.Y;
-            var diff = Math.Sqrt((xDiff * xDiff) + (yDiff * yDiff));
 
-            return diff;
-        }
-
-        public static double GetAngleOfLineBetweenTwoPoints(Coordinates start, Coordinates end)
-        {
-            double xDiff = end.X - start.X;
-            double yDiff = end.Y - start.Y;
-            return Math.Atan2(yDiff, xDiff) * (180 / Math.PI);
-        }
     }
 }
