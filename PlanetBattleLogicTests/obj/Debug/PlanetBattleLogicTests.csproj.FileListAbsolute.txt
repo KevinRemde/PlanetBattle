@@ -1,0 +1,9 @@
+C:\development\PlanetBattle\PlanetBattleLogicTests\bin\Debug\PlanetBattleLogicTests.dll
+C:\development\PlanetBattle\PlanetBattleLogicTests\bin\Debug\PlanetBattleLogicTests.pdb
+C:\development\PlanetBattle\PlanetBattleLogicTests\bin\Debug\Microsoft.VisualStudio.QualityTools.UnitTestFramework.dll
+C:\development\PlanetBattle\PlanetBattleLogicTests\bin\Debug\PlanetBattleLogic.dll
+C:\development\PlanetBattle\PlanetBattleLogicTests\bin\Debug\PlanetBattleLogic.pdb
+C:\development\PlanetBattle\PlanetBattleLogicTests\bin\Debug\Microsoft.VisualStudio.QualityTools.UnitTestFramework.xml
+C:\development\PlanetBattle\PlanetBattleLogicTests\obj\Debug\PlanetBattleLogicTests.csprojResolveAssemblyReference.cache
+C:\development\PlanetBattle\PlanetBattleLogicTests\obj\Debug\PlanetBattleLogicTests.dll
+C:\development\PlanetBattle\PlanetBattleLogicTests\obj\Debug\PlanetBattleLogicTests.pdb
