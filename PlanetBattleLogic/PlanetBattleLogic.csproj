@@ -40,8 +40,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Game.cs" />
+    <Compile Include="GameControl.cs" />
     <Compile Include="Models\Coordinates.cs" />
+    <Compile Include="Models\Game.cs" />
     <Compile Include="Models\Player.cs" />
     <Compile Include="Models\Planet.cs" />
     <Compile Include="Models\Ship.cs" />

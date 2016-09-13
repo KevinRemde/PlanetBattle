@@ -7,5 +7,7 @@ namespace PlanetBattleLogic.Models
 {
     public class Round
     {
+        public ICollection<PlayerTurn> PlayerTurns { get; set; }
+
     }
 }

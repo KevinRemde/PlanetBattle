@@ -19,7 +19,7 @@ namespace PlanetBattleLogic.Tests
             var ship1 = new Ship();
             var ship2 = new Ship();
             
-            var winningShip = Game.FightBattle(ship1, ship2);
+            var winningShip = GameControl.FightBattle(ship1, ship2);
 
             Assert.IsInstanceOfType(winningShip, typeof(Ship));
         }

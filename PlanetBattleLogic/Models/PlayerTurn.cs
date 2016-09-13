@@ -7,5 +7,7 @@ namespace PlanetBattleLogic.Models
 {
     public class PlayerTurn
     {
+        public Player Player { get; set; }
+
     }
 }

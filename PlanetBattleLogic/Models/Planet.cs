@@ -9,7 +9,16 @@ namespace PlanetBattleLogic.Models
 {
     public class Planet
     {
+        public Planet()
+        {
+        }
 
+        public Planet(string name)
+        {
+            Name = name;
+        }
+        public Player Owner { get; set; }
+        public string Name { get; set; }
         public ICollection<Ship> Ships { get; set; }
         public Coordinates Location { get; set; }
 
