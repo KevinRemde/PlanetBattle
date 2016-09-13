@@ -1,0 +1,5 @@
+C:\development\PlanetBattle\PlanetBattleLogic\bin\Debug\PlanetBattleLogic.dll
+C:\development\PlanetBattle\PlanetBattleLogic\bin\Debug\PlanetBattleLogic.pdb
+C:\development\PlanetBattle\PlanetBattleLogic\obj\Debug\PlanetBattleLogic.dll
+C:\development\PlanetBattle\PlanetBattleLogic\obj\Debug\PlanetBattleLogic.pdb
+C:\development\PlanetBattle\PlanetBattleLogic\obj\Debug\PlanetBattleLogic.csprojResolveAssemblyReference.cache
