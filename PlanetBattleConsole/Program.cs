@@ -18,48 +18,7 @@ namespace PlanetBattleConsole
 
             foreach (Player player in game.Players)
             {
-                Console.WriteLine();
-                Console.WriteLine("{0}: It is your move", player.Name);
-                Console.WriteLine("You have ships on the following planets:");
-                foreach (Planet planet in game.Universe.Planets
-                    .Where(p=>p.Owner?.Name == player.Name))
-                {
-                    Console.WriteLine("{0}) {1}", planet.Id, planet.Name);
-                }
-                Console.WriteLine("From which planet do you want to launch ships?");
-                Console.WriteLine("Enter an ID and press ENTER");
-                string selectedIdString = Console.ReadLine();
-                int selectedId = Convert.ToInt32(selectedIdString);
-                Planet selectedStartPlanet = game.Universe.Planets
-                    .Where(p => p.Id == selectedId).FirstOrDefault();
-                Console.WriteLine("You selected {0}", selectedStartPlanet.Name);
-                Console.WriteLine();
-                Console.WriteLine("How many ships would you like to launch from {0}?", selectedStartPlanet.Name);
-                string numberOfShipsAsString = Console.ReadLine();
-                int numberOfShips = Convert.ToInt32(numberOfShipsAsString);
-                Console.WriteLine("You elected to launch {0} ships from {1}.", numberOfShips, selectedStartPlanet.Name);
-                Console.WriteLine();
-                Console.WriteLine("Toward which planet would you like to send these ships?");
-                Console.WriteLine("Enter an ID and press ENTER");
-                foreach (Planet planet in game.Universe.Planets
-                    .Where(p => p.Id != selectedId))
-                {
-                    Console.WriteLine("{0}) {1}", planet.Id, planet.Name);
-                }
-                string selectedDestIdAsString = Console.ReadLine();
-                int selectedDestId = Convert.ToInt32(selectedDestIdAsString);
-                Planet selectedDestPlanet = game.Universe.Planets
-                    .Where(p => p.Id == selectedDestId).FirstOrDefault();
-
-                Console.WriteLine("You elected to launch {0} ships from {1} toward {2}.", numberOfShips, selectedStartPlanet.Name, selectedDestPlanet.Name);
-
-                GameControl.ExecuteTurn(player, selectedStartPlanet, selectedDestPlanet, numberOfShips);
-
-                Console.WriteLine("=======================================");
-                Console.WriteLine("Here is the current status of the game:");
-                PrintBoardStatus(game);
-
-                Console.WriteLine("xxxxxxxxxxxxxxxxxxxxxxxxxxx");
+                ProcessTurn(player, game);
             }
 
             Console.WriteLine();
@@ -68,6 +27,57 @@ namespace PlanetBattleConsole
 
             Console.ReadLine();
         }
+
+        public static void ProcessTurn(Player player, Game game)
+        {
+            Console.WriteLine();
+            Console.WriteLine("{0}: It is your move", player.Name);
+            Console.WriteLine("You have ships on the following planets:");
+            foreach (Planet planet in game.Universe.Planets
+                .Where(p => p.Owner?.Name == player.Name))
+            {
+                Console.WriteLine("{0}) {1}", planet.Id, planet.Name);
+            }
+            Console.WriteLine("From which planet do you want to launch ships?");
+            Console.WriteLine("Enter an ID and press ENTER");
+            string selectedIdString = Console.ReadLine();
+            int selectedId = Convert.ToInt32(selectedIdString);
+            Planet selectedStartPlanet = game.Universe.Planets
+                .Where(p => p.Id == selectedId).FirstOrDefault();
+            Console.WriteLine("You selected {0}", selectedStartPlanet.Name);
+            Console.WriteLine();
+            Console.WriteLine("How many ships would you like to launch from {0}?", selectedStartPlanet.Name);
+            string numberOfShipsAsString = Console.ReadLine();
+            int numberOfShips = Convert.ToInt32(numberOfShipsAsString);
+            Console.WriteLine("You elected to launch {0} ships from {1}.", numberOfShips, selectedStartPlanet.Name);
+            Console.WriteLine();
+            Console.WriteLine("Toward which planet would you like to send these ships?");
+            Console.WriteLine("Enter an ID and press ENTER");
+            foreach (Planet planet in game.Universe.Planets
+                .Where(p => p.Id != selectedId))
+            {
+                Console.WriteLine("{0}) {1}", planet.Id, planet.Name);
+            }
+            string selectedDestIdAsString = Console.ReadLine();
+            int selectedDestId = Convert.ToInt32(selectedDestIdAsString);
+            Planet selectedDestPlanet = game.Universe.Planets
+                .Where(p => p.Id == selectedDestId).FirstOrDefault();
+
+            Console.WriteLine("You elected to launch {0} ships from {1} toward {2}.", numberOfShips, selectedStartPlanet.Name, selectedDestPlanet.Name);
+
+            GameControl.ExecuteTurn(player, selectedStartPlanet, selectedDestPlanet, numberOfShips);
+
+            Console.WriteLine("=======================================");
+            Console.WriteLine("Here is the current status of the game:");
+            PrintBoardStatus(game);
+
+            // Loop through ships. Any landed on planet?
+            // If so, fight battles with ships on planet
+
+
+            Console.WriteLine("xxxxxxxxxxxxxxxxxxxxxxxxxxx");
+        }
+
 
 
         private static void PrintBoardStatus(Game game)
