@@ -3,7 +3,6 @@
 *.suo
 PlanetBattleLogic/obj/Debug/DesignTimeResolveAssemblyReferencesInput.cache
 *.suo
-*.config
 .vs/PlanetBattle/v14/.suo
 *.cache
 *.suo
