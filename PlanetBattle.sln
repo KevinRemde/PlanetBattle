@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PlanetBattleLogic", "Planet
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PlanetBattleLogicTests", "PlanetBattleLogicTests\PlanetBattleLogicTests.csproj", "{0AD12B72-2869-4AB6-AC77-0A637283F067}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PlanetBattleConsole", "PlanetBattleConsole\PlanetBattleConsole.csproj", "{1AD956CA-4D00-4C0B-AD9C-5380E4F87D34}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,10 @@ Global
 		{0AD12B72-2869-4AB6-AC77-0A637283F067}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0AD12B72-2869-4AB6-AC77-0A637283F067}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0AD12B72-2869-4AB6-AC77-0A637283F067}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1AD956CA-4D00-4C0B-AD9C-5380E4F87D34}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1AD956CA-4D00-4C0B-AD9C-5380E4F87D34}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1AD956CA-4D00-4C0B-AD9C-5380E4F87D34}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1AD956CA-4D00-4C0B-AD9C-5380E4F87D34}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

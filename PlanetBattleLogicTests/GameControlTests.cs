@@ -19,9 +19,43 @@ namespace PlanetBattleLogic.Tests
             Assert.IsTrue(game.Players.Count > 0);
             Assert.IsTrue(game.Universe.Planets.Count > 0);
             Assert.IsTrue(game.Universe.Height == 100);
-            Assert.IsTrue(game.Universe.Width  == 100);
+            Assert.IsTrue(game.Universe.Width == 100);
 
 
+        }
+
+        [TestMethod()]
+        public void ExecuteTurnTest()
+        {
+            var player = new Player("Bill");
+            var startPlanet = new Planet("Planet B");
+            startPlanet.Owner = player;
+            startPlanet.Location = new Coordinates(10, 10);
+            GameControl.CreateAndAddShips(startPlanet, 1);
+            var destPlanet = new Planet("PlanetDest");
+            destPlanet.Location = new Coordinates(10, 100);
+            int numberOfShipsToMove = 5;
+            GameControl.ExecuteTurn(player, startPlanet, destPlanet, numberOfShipsToMove);
+
+            var expectedShipCount = GameControl.GetInitialShipCount() - numberOfShipsToMove;
+            Assert.AreEqual(expectedShipCount, startPlanet.Ships.Count);
+
+        }
+
+        [TestMethod()]
+        public void CreateAndAddShipsTest()
+        {
+            var player = new Player("Steve");
+            var planet = new Planet("TestPlanet");
+            planet.Owner = player;
+            GameControl.CreateAndAddShips(planet, 1);
+            int intitialShipCount = GameControl.GetInitialShipCount();
+            Assert.AreEqual(intitialShipCount, planet.Ships.Count);
+            Assert.AreEqual
+                (
+                player.Name,
+                planet.Ships.FirstOrDefault().Owner.Name
+                );
         }
     }
 }

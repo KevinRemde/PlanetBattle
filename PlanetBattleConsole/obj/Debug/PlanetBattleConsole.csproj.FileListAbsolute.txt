@@ -1,0 +1,8 @@
+C:\development\PlanetBattle\PlanetBattleConsole\bin\Debug\PlanetBattleConsole.exe.config
+C:\development\PlanetBattle\PlanetBattleConsole\bin\Debug\PlanetBattleConsole.exe
+C:\development\PlanetBattle\PlanetBattleConsole\bin\Debug\PlanetBattleConsole.pdb
+C:\development\PlanetBattle\PlanetBattleConsole\bin\Debug\PlanetBattleLogic.dll
+C:\development\PlanetBattle\PlanetBattleConsole\bin\Debug\PlanetBattleLogic.pdb
+C:\development\PlanetBattle\PlanetBattleConsole\obj\Debug\PlanetBattleConsole.csprojResolveAssemblyReference.cache
+C:\development\PlanetBattle\PlanetBattleConsole\obj\Debug\PlanetBattleConsole.exe
+C:\development\PlanetBattle\PlanetBattleConsole\obj\Debug\PlanetBattleConsole.pdb

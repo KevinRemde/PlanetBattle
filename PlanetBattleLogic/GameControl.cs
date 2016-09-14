@@ -10,6 +10,16 @@ namespace PlanetBattleLogic
 {
     public static class GameControl
     {
+        public static int GetUnitsToMove()
+        {
+            return 50;
+        }
+
+        public static int GetInitialShipCount()
+        {
+            return 20;
+        }
+
         public static Game SetupGame()
         {
             var universe = new Universe(100, 100);
@@ -23,10 +33,40 @@ namespace PlanetBattleLogic
             foreach (Player player in game.Players)
             {
                 var shipsForThisPlayer = CreateAndAddShips(player.HomePlanet, nextId);
-                player.HomePlanet.Ships = shipsForThisPlayer;
+                //player.HomePlanet.Ships = shipsForThisPlayer;
             }
 
             return game;
+        }
+
+        public static void ExecuteTurn(Player player, Planet startPlanet, Planet destinationPlanet, int numberOfShips)
+        {
+            int unitsToMove = GetUnitsToMove();
+            var playersShipsOnThisPlanet = startPlanet.Ships.Where(s => s.Owner == player);
+            if (numberOfShips > playersShipsOnThisPlanet.Count())
+            {
+                numberOfShips = playersShipsOnThisPlanet.Count();
+            }
+            int shipsSentSoFar = 0;
+
+            // Copy of planet's ships collection
+            var copyShipsCollection = new Collection<Ship>();
+            foreach (Ship ship in startPlanet.Ships)
+            {
+                copyShipsCollection.Add(ship);
+            }
+
+            foreach (Ship ship in startPlanet.Ships)
+            {
+                if (shipsSentSoFar >= numberOfShips)
+                {
+                    break;
+                }
+                ship.Move(unitsToMove, destinationPlanet);
+                copyShipsCollection.Remove(ship);
+                shipsSentSoFar++;
+            }
+            startPlanet.Ships = copyShipsCollection;
         }
 
         public static Ship FightBattle(Ship ship1, Ship ship2)
@@ -36,7 +76,6 @@ namespace PlanetBattleLogic
 
             Ship[] shipArray = new Ship[2] { ship1, ship2 };
             return shipArray[winnerIndex];
-
         }
 
         public static void BattleForPlanet(Planet planet)
@@ -92,9 +131,9 @@ namespace PlanetBattleLogic
 
         public static ICollection<Planet> CreateAndAddPlanets()
         {
-            var planetD = new Planet("Planet D");
-            var planetX = new Planet("Planet X");
-            var planetK = new Planet("Planet K");
+            var planetD = new Planet("Planet D") { Id = 1 };
+            var planetX = new Planet("Planet X") { Id = 2 };
+            var planetK = new Planet("Planet K") { Id = 3 };
 
             var planets = new Collection<Planet>();
             planets.Add(planetD);
@@ -113,12 +152,14 @@ namespace PlanetBattleLogic
 
         public static ICollection<Ship> CreateAndAddShips(Planet planet,int startID)
         {
+            int initialShipCount = GetInitialShipCount();
             var ships = new Collection<Ship>();
-            for (int i = startID; i <= 20; i++)
+            for (int i = startID; i <= initialShipCount; i++)
             {
                 var ship = new Ship(i, planet.Owner, planet.Location);
                 ships.Add(ship);
             }
+            planet.Ships = ships;
 
             return ships;
 
@@ -131,6 +172,5 @@ namespace PlanetBattleLogic
             planets.FirstOrDefault().Owner = players.FirstOrDefault();
             planets.LastOrDefault().Owner = players.LastOrDefault();
         }
-
     }
 }
