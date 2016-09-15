@@ -73,7 +73,7 @@ namespace PlanetBattleConsole
 
             GameControl.ExecuteTurn(player, selectedStartPlanet, selectedDestPlanet, numberOfShips, game);
 
-            Console.WriteLine("=======================================");
+            Console.WriteLine("******************************");
             Console.WriteLine("Here is the current status of the game:");
             PrintBoardStatus(game);
 
@@ -81,8 +81,11 @@ namespace PlanetBattleConsole
             // Loop through ships. Any landed on planet?
             // If so, fight battles with ships on planet
 
-
-            Console.WriteLine("xxxxxxxxxxxxxxxxxxxxxxxxxxx");
+            Console.WriteLine();
+            Console.WriteLine("******************************");
+            Console.WriteLine("******************************");
+            Console.WriteLine("******************************");
+            Console.WriteLine();
         }
 
         private static void FightAllBattles(Game game)
@@ -123,8 +126,29 @@ namespace PlanetBattleConsole
             PrintAllPlayers(game.Players);
             Universe universe = game.Universe;
             Console.WriteLine();
-            PrintAllPlanets(universe.Planets); 
+            PrintAllPlanets(universe.Planets);
 
+            PrintShipsBetweenPlanets(game);
+
+        }
+
+        private static void PrintShipsBetweenPlanets(Game game)
+        {
+            var ships = GameControl.GetShipsNotOnAnyPlanet(game);
+            Console.WriteLine("=======================");
+            Console.WriteLine("Ships betweeen planets:");
+            Console.WriteLine("=======================");
+            foreach (Ship ship in ships)
+            {
+                Console.WriteLine
+                    (
+                    "    Ship Id: {0}; Owner: {1}; Location: {2:##0.0}, {3:##0.0}", 
+                    ship.Id, 
+                    ship.Owner.Name, 
+                    ship.Location.X, 
+                    ship.Location.Y
+                    );
+            }
         }
 
         private static void PrintAllPlayers(ICollection<Player> players)
@@ -136,6 +160,7 @@ namespace PlanetBattleConsole
             {
                 Console.WriteLine(player.Name);
             }
+            Console.WriteLine();
         }
 
         private static void PrintAllPlanets(ICollection<Planet> planets)
@@ -147,7 +172,7 @@ namespace PlanetBattleConsole
             {
                 Console.WriteLine("Planet: {0}", planet.Name);
                 Console.WriteLine("Owner: {0}", planet.Owner?.Name ?? "None");
-                Console.WriteLine("Location: {0}, {1}", planet.Location.X, planet.Location.Y);
+                Console.WriteLine("Location: {0:##0.0}, {1:##0.0}", planet.Location.X, planet.Location.Y);
                 Console.WriteLine("-----");
                 Console.WriteLine("Ships");
                 Console.WriteLine("-----");
