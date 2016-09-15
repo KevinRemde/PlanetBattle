@@ -20,42 +20,53 @@ namespace PlanetBattleLogic.Models
         public int Id { get; set; }
         public Player Owner { get; set; }
         public Coordinates Location { get; set; }
-
         public Planet Destination { get; set; }
+        public Planet CurrentPlanet { get; set; } 
 
         public void Move (double unitsToMove, Planet destinationPlanet)
         {
-            if (destinationPlanet== null)
+            if (destinationPlanet == null)
             {
                 // No destination set.
                 return;
             }
-            
-            Coordinates destination = destinationPlanet.Location;
-            if (destination == this.Location)
+
+            if (destinationPlanet.Location == this.Location) 
             {
                 // Already arrived at destination
                 return;
             }
 
-            var distanceToDestination = Utilities.DistanceToDestination(this.Location, destination);
+            this.Destination = destinationPlanet;
 
-            if (unitsToMove > distanceToDestination)
+            double distanceToDestination = this.GetDistanceToDestination();
+            if (distanceToDestination <= unitsToMove)
             {
+                // Move is farther than destination planet.
+                // Stop at planet
                 this.Location = destinationPlanet.Location;
+                this.Destination = null;
+                this.CurrentPlanet = destinationPlanet;
+                return;
             }
-            else
-            {
-                double angle = Utilities.GetAngleOfLineBetweenTwoPoints
-                    (
-                    this.Location, 
-                    destinationPlanet.Location
-                    );
-                Coordinates newLocation = Utilities.GetDestinationLocation(this.Location, angle, unitsToMove);
-                this.Location = newLocation;
-            }
+
+            Coordinates destination = destinationPlanet.Location;
+
+            double angle = Utilities.GetAngleOfLineBetweenTwoPoints
+                (
+                this.Location,
+                destinationPlanet.Location
+                );
+            Coordinates newLocation = Utilities.GetDestinationLocation(this.Location, angle, unitsToMove);
+            this.Location = newLocation;
+            this.CurrentPlanet = null;
         }
 
-
+        private double GetDistanceToDestination()
+        {
+            double distance = Utilities.DistanceToDestination
+                (this.Location, this.Destination.Location);
+            return distance;
+        }
     }
 }

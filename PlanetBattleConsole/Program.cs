@@ -16,9 +16,15 @@ namespace PlanetBattleConsole
             var game = GameControl.SetupGame();
             PrintBoardStatus(game);
 
-            foreach (Player player in game.Players)
+            // TODO: Replace this loop with 
+            //          while more than one player has ships
+            for (int i = 0; i < 5; i++)
             {
-                ProcessTurn(player, game);
+                foreach (Player player in game.Players)
+                {
+                    ProcessTurn(player, game);
+                }
+
             }
 
             Console.WriteLine();
@@ -46,6 +52,7 @@ namespace PlanetBattleConsole
                 .Where(p => p.Id == selectedId).FirstOrDefault();
             Console.WriteLine("You selected {0}", selectedStartPlanet.Name);
             Console.WriteLine();
+
             Console.WriteLine("How many ships would you like to launch from {0}?", selectedStartPlanet.Name);
             string numberOfShipsAsString = Console.ReadLine();
             int numberOfShips = Convert.ToInt32(numberOfShipsAsString);
@@ -62,15 +69,15 @@ namespace PlanetBattleConsole
             int selectedDestId = Convert.ToInt32(selectedDestIdAsString);
             Planet selectedDestPlanet = game.Universe.Planets
                 .Where(p => p.Id == selectedDestId).FirstOrDefault();
-
             Console.WriteLine("You elected to launch {0} ships from {1} toward {2}.", numberOfShips, selectedStartPlanet.Name, selectedDestPlanet.Name);
 
-            GameControl.ExecuteTurn(player, selectedStartPlanet, selectedDestPlanet, numberOfShips);
+            GameControl.ExecuteTurn(player, selectedStartPlanet, selectedDestPlanet, numberOfShips, game);
 
             Console.WriteLine("=======================================");
             Console.WriteLine("Here is the current status of the game:");
             PrintBoardStatus(game);
 
+            FightAllBattles(game);
             // Loop through ships. Any landed on planet?
             // If so, fight battles with ships on planet
 
@@ -78,7 +85,38 @@ namespace PlanetBattleConsole
             Console.WriteLine("xxxxxxxxxxxxxxxxxxxxxxxxxxx");
         }
 
+        private static void FightAllBattles(Game game)
+        {
+            ICollection<Player> players = game.Players; 
+            foreach (Player player in players)
+            {
+                ICollection<Ship> ships = player.Ships;
+                foreach(Ship ship in ships)
+                {
+                    // Which ships are on a planet?
+                    if (ShipIsOnAPlanet(ship))
+                    {
+                        // Are ships of any other owners on this planet?
+                        //ICollection<Ship> OpponentShips = GetOpponentShipsOnPlanet(player, planet);
 
+                    }
+                }
+            }
+        }
+
+        private static ICollection<Ship> GetOpponentShipsOnPlanet(Player player, object planet)
+        {
+            // TODO: Get Opponent ships on Planet
+            var ships = new Collection<Ship>();
+            return ships;
+        }
+
+        private static bool ShipIsOnAPlanet(Ship ship)
+        {
+            // TODO: Implement this
+            return false;
+            //throw new NotImplementedException();
+        }
 
         private static void PrintBoardStatus(Game game)
         {

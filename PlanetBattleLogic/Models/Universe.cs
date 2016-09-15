@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Web;
 
@@ -9,9 +10,11 @@ namespace PlanetBattleLogic.Models
     {
         public Universe()
         {
+            this.Planets = new Collection<Planet>();
         }
         public Universe(int width, int height)
         {
+            this.Planets = new Collection<Planet>();
             this.Width = width;
             this.Height = height;
         }

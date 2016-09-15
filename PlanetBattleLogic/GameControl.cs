@@ -12,7 +12,7 @@ namespace PlanetBattleLogic
     {
         public static int GetUnitsToMove()
         {
-            return 50;
+            return 25;
         }
 
         public static int GetInitialShipCount()
@@ -22,25 +22,32 @@ namespace PlanetBattleLogic
 
         public static Game SetupGame()
         {
+            
+
             var universe = new Universe(100, 100);
             universe.Planets = CreateAndAddPlanets();
             universe.PositionPlanets();
             var game = new Game();
+            game.NextShipId = 1;
             game.Universe = universe;
             game.Players = CreateAndAddPlayers();
-            int nextId = 1;
             AssignPlayersToPlanets(universe.Planets, game.Players);
             foreach (Player player in game.Players)
             {
-                var shipsForThisPlayer = CreateAndAddShips(player.HomePlanet, nextId);
-                //player.HomePlanet.Ships = shipsForThisPlayer;
+                var shipsForThisPlayer = CreateAndAddShips(player.HomePlanet, game.NextShipId);
+                player.Ships = shipsForThisPlayer;
+                player.HomePlanet.Ships = shipsForThisPlayer;
+                game.NextShipId += player.Ships.Count;
             }
 
             return game;
         }
 
-        public static void ExecuteTurn(Player player, Planet startPlanet, Planet destinationPlanet, int numberOfShips)
+        public static void ExecuteTurn(Player player, Planet startPlanet, Planet destinationPlanet, int numberOfShips, Game game)
         {
+            // Before moving, get ships that are currently not on a planet
+            ICollection<Ship> shipsNotOnAnyPlanet = GetShipsNotOnAnyPlanet(game);
+
             int unitsToMove = GetUnitsToMove();
             var playersShipsOnThisPlanet = startPlanet.Ships.Where(s => s.Owner == player);
             if (numberOfShips > playersShipsOnThisPlanet.Count())
@@ -67,6 +74,32 @@ namespace PlanetBattleLogic
                 shipsSentSoFar++;
             }
             startPlanet.Ships = copyShipsCollection;
+
+            // Move all ships that were not on a planet when the move began
+            foreach ( Ship ship in shipsNotOnAnyPlanet)
+            {
+                ship.Move(unitsToMove, ship.Destination);
+            }
+
+        }
+
+        public static ICollection<Ship> GetShipsNotOnAnyPlanet(Game game)
+        {
+            var ships = new Collection<Ship>();
+            foreach (Player player in game.Players)
+            {
+                foreach (Ship ship in player.Ships)
+                {
+                    if (ship.CurrentPlanet == null)
+                    {
+                        ships.Add(ship);
+                    }
+
+                }
+                //var offPlanetShips = player.Ships.Where(s => s.CurrentPlanet == null);
+            }
+
+            return ships;
         }
 
         public static Ship FightBattle(Ship ship1, Ship ship2)
@@ -150,13 +183,15 @@ namespace PlanetBattleLogic
             return rounds;
         }
 
-        public static ICollection<Ship> CreateAndAddShips(Planet planet,int startID)
+        public static ICollection<Ship> CreateAndAddShips(Planet planet,int firstShipID)
         {
             int initialShipCount = GetInitialShipCount();
             var ships = new Collection<Ship>();
-            for (int i = startID; i <= initialShipCount; i++)
+            int lastShipId = firstShipID + initialShipCount;
+            for (int i = firstShipID; i < lastShipId; i++)
             {
                 var ship = new Ship(i, planet.Owner, planet.Location);
+                ship.CurrentPlanet = planet;
                 ships.Add(ship);
             }
             planet.Ships = ships;
