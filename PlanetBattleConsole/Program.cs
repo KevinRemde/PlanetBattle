@@ -16,15 +16,17 @@ namespace PlanetBattleConsole
             var game = GameControl.SetupGame();
             PrintBoardStatus(game);
 
-            // TODO: Replace this loop with 
-            //          while more than one player has ships
-            for (int i = 0; i < 5; i++)
+            while (game.ActiveGame)
             {
                 foreach (Player player in game.Players)
                 {
                     ProcessTurn(player, game, game.Universe.Ships);
+                    int playersRemaining = CountPlayersWithShipsRemaining(game);
+                    if (playersRemaining <=1)
+                    {
+                        game.ActiveGame = false;
+                    }
                 }
-
             }
 
             Console.WriteLine();
@@ -32,6 +34,19 @@ namespace PlanetBattleConsole
             Console.WriteLine("Press ENTER to Exit game!");
 
             Console.ReadLine();
+        }
+
+        private static int CountPlayersWithShipsRemaining(Game game)
+        {
+            int playersWithShips = 0;
+            foreach (Player player in game.Players)
+            {
+                if (player.Ships.Count() > 0)
+                {
+                    playersWithShips++;
+                }
+            }
+            return playersWithShips;
         }
 
         public static void ProcessTurn(Player player, Game game, ICollection<Ship> ships)
@@ -91,37 +106,47 @@ namespace PlanetBattleConsole
         {
             foreach (Planet planet in game.Universe.Planets)
             {
-
+                FightAllBattles(planet);
             }
-            //ICollection<Player> players = game.Players; 
-            //foreach (Player player in players)
-            //{
-            //    ICollection<Ship> ships = player.Ships;
-            //    foreach(Ship ship in ships)
-            //    {
-            //        // Which ships are on a planet?
-            //        if (ShipIsOnAPlanet(ship))
-            //        {
-            //            // Are ships of any other owners on this planet?
-            //            //ICollection<Ship> OpponentShips = GetOpponentShipsOnPlanet(player, planet);
-
-            //        }
-            //    }
-            //}
         }
 
-        private static ICollection<Ship> GetOpponentShipsOnPlanet(Player player, object planet)
+        private static void FightAllBattles (Planet planet)
         {
-            // TODO: Get Opponent ships on Planet
-            var ships = new Collection<Ship>();
-            return ships;
-        }
+            if (planet.Ships.Count <= 1)
+            {
+                return;
+            }
+            while (true)
+            {
+                Ship ship1 = planet.Ships.First();
+                if (ship1 == null)
+                {
+                    // No ships on planet
+                    return;
+                }
 
-        private static bool ShipIsOnAPlanet(Ship ship)
-        {
-            // TODO: Implement this
-            return false;
-            //throw new NotImplementedException();
+                // Pick another owner's ship on this planet
+                Ship ship2 = planet.Ships.Where(s => s.Owner.Name != ship1.Owner.Name).FirstOrDefault();
+                if (ship2 == null)
+                {
+                    // No opposing ships to battle
+                    return;
+                }
+
+                // Ships fight each other; Destroy loser
+                Ship winningShip = GameControl.FightBattle(ship1, ship2);
+                if (winningShip.Id == ship1.Id)
+                {
+                    planet.Ships.Remove(ship2);
+                    ship2 = null;
+                }
+                else
+                {
+                    planet.Ships.Remove(ship1);
+                    ship1 = null;
+                }
+            }
+
         }
 
         private static void PrintBoardStatus(Game game)

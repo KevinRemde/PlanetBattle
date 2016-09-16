@@ -17,6 +17,8 @@ namespace PlanetBattleLogic.Models
         public ICollection<Round> Rounds { get; set; }
         public ICollection<Player> Players { get; set; }
         public int NextShipId { get; set; }
+        public bool ActiveGame { get; set; }
+
 
 
     }

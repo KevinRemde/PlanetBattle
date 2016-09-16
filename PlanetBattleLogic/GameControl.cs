@@ -17,19 +17,20 @@ namespace PlanetBattleLogic
 
         public static int GetInitialShipCount()
         {
-            return 20;
+            return 3;
         }
 
         public static Game SetupGame()
         {
-            
-
             var universe = new Universe(100, 100);
             universe.Planets = CreateAndAddPlanets();
             universe.PositionPlanets();
-            var game = new Game();
-            game.NextShipId = 1;
-            game.Universe = universe;
+            var game = new Game()
+            {
+                ActiveGame = true,
+                NextShipId = 1,
+                Universe = universe
+            };
             game.Players = CreateAndAddPlayers();
             AssignPlayersToPlanets(universe.Planets, game.Players);
             foreach (Player player in game.Players)
