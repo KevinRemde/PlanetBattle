@@ -31,11 +31,11 @@ namespace PlanetBattleLogic.Tests
             game.Universe = new Universe();
             var player = new Player("Bill");
             game.Players.Add(player);
-            var startPlanet = new Planet("Planet B");
+            var startPlanet = new Planet("Planet B", game);
             startPlanet.Owner = player;
             startPlanet.Location = new Coordinates(10, 10);
             GameControl.CreateAndAddShips(startPlanet, 1, game);
-            var destPlanet = new Planet("PlanetDest");
+            var destPlanet = new Planet("PlanetDest", game);
             destPlanet.Location = new Coordinates(10, 100);
             int numberOfShipsToMove = 5;
             GameControl.ExecuteTurn(player, startPlanet, destPlanet, numberOfShipsToMove, game);
@@ -53,7 +53,7 @@ namespace PlanetBattleLogic.Tests
             game.Universe = universe;
             var player = new Player("Steve");
             game.Players.Add(player);
-            var planet = new Planet("TestPlanet");
+            var planet = new Planet("TestPlanet", game);
             planet.Owner = player;
             GameControl.CreateAndAddShips(planet, 1, game);
             int intitialShipCount = GameControl.GetInitialShipCount();
@@ -72,7 +72,7 @@ namespace PlanetBattleLogic.Tests
             game.Universe = new Universe();
 
             // Setup: 2 ships on each planet
-            var planet1 = new Planet("Planet1");
+            var planet1 = new Planet("Planet1", game);
             planet1.Location = new Coordinates(10, 10);
             var player1 = new Player("P1");
             var ship11 = new Ship(1, player1, planet1.Location);
@@ -84,7 +84,7 @@ namespace PlanetBattleLogic.Tests
             game.Players.Add(player1);
             game.Universe.Planets.Add(planet1);
 
-            var planet2 = new Planet("Planet2");
+            var planet2 = new Planet("Planet2", game);
             planet2.Location = new Coordinates(100, 100);
             var player2 = new Player("P2");
             var ship21 = new Ship(3, player2, planet2.Location);
@@ -109,7 +109,7 @@ namespace PlanetBattleLogic.Tests
             game.Universe = new Universe();
 
             // Setup: 2 ships on each planet
-            var planet1 = new Planet("Planet1");
+            var planet1 = new Planet("Planet1", game);
             planet1.Location = new Coordinates(10, 10);
             var player1 = new Player("P1");
             var ship11 = new Ship(1, player1, planet1.Location);
@@ -121,7 +121,7 @@ namespace PlanetBattleLogic.Tests
             game.Players.Add(player1);
             game.Universe.Planets.Add(planet1);
 
-            var planet2 = new Planet("Planet2");
+            var planet2 = new Planet("Planet2", game);
             planet2.Location = new Coordinates(100, 100);
             var player2 = new Player("P2");
             var ship21 = new Ship(3, player2, planet2.Location);

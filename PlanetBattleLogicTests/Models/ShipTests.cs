@@ -14,10 +14,11 @@ namespace PlanetBattleLogic.Models.Tests
         [TestMethod()]
         public void MoveTest()
         {
+            var game = new Game();
             var start = new Coordinates(10, 10);
             var ship = new Ship(1, new Player("Satya"), start);
             var destinationPlanet = new Planet
-                ("Planet Microsoft");
+                ("Planet Microsoft", game);
             destinationPlanet.Location = new Coordinates(10, 100);
             ship.Move(50, destinationPlanet);
 

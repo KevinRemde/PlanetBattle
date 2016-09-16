@@ -11,12 +11,14 @@ namespace PlanetBattleLogic.Models
     {
         public Planet()
         {
+            Game = new Game();
             Ships = new Collection<Ship>();
         }
 
-        public Planet(string name)
+        public Planet(string name, Game game)
         {
             Name = name;
+            Game = game;
             Ships = new Collection<Ship>();
         }
         public int Id { get; set; }
@@ -24,6 +26,7 @@ namespace PlanetBattleLogic.Models
         public string Name { get; set; }
         public ICollection<Ship> Ships { get; set; }
         public Coordinates Location { get; set; }
+        public Game Game { get; set; }
 
     }
 }

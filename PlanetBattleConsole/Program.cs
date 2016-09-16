@@ -75,8 +75,7 @@ namespace PlanetBattleConsole
             Console.WriteLine();
             Console.WriteLine("Toward which planet would you like to send these ships?");
             Console.WriteLine("Enter an ID and press ENTER");
-            foreach (Planet planet in game.Universe.Planets
-                .Where(p => p.Id != selectedId))
+            foreach (Planet planet in game.Universe.Planets)
             {
                 Console.WriteLine("{0}) {1}", planet.Id, planet.Name);
             }
@@ -92,7 +91,6 @@ namespace PlanetBattleConsole
             Console.WriteLine("Here is the current status of the game:");
             PrintBoardStatus(game);
 
-            //FightAllBattles(game);
             FightAllBattles(game);
 
             Console.WriteLine();
@@ -151,21 +149,48 @@ namespace PlanetBattleConsole
 
         private static void PrintBoardStatus(Game game)
         {
+            PrintActivities(game, "001");
+
             PrintAllPlayers(game.Players);
-            Universe universe = game.Universe;
+
             Console.WriteLine();
+
+            Universe universe = game.Universe;
             PrintAllPlanets(universe.Planets);
 
             PrintShipsBetweenPlanets(game);
 
         }
 
+        private static void PrintActivities(Game game, string group)
+        {
+            Console.WriteLine("***************************");
+            Console.WriteLine("Moves so far:");
+            if (game.Activities.Where(a => a.Group == group).Count() == 0)
+            {
+                Console.WriteLine("    **none**");
+            }
+            foreach (Activity activity in game.Activities.Where(a => a.Group == group))
+            {
+                Console.Write("    ");
+                Console.Write(activity.DateTime);
+                Console.Write("  ");
+                Console.WriteLine(activity.Text);
+            }
+        }
+
         private static void PrintShipsBetweenPlanets(Game game)
         {
-            var ships = GameControl.GetShipsNotOnAnyPlanet(game);
             Console.WriteLine("=======================");
             Console.WriteLine("Ships betweeen planets:");
             Console.WriteLine("=======================");
+
+            var ships = GameControl.GetShipsNotOnAnyPlanet(game);
+            if (ships.Count() == 0)
+            {
+                Console.WriteLine("    **none**");
+                return;
+            }
             foreach (Ship ship in ships)
             {
                 Console.WriteLine
@@ -204,6 +229,10 @@ namespace PlanetBattleConsole
                 Console.WriteLine("-----");
                 Console.WriteLine("Ships");
                 Console.WriteLine("-----");
+                if (planet.Ships.Count() == 0)
+                {
+                    Console.WriteLine("    **none**");
+                }
                 foreach (Ship ship in planet.Ships)
                 {
                     Console.WriteLine("    Ship Id: {0}; Owner: {1}", ship.Id, ship.Owner.Name);

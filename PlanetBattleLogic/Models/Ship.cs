@@ -25,6 +25,14 @@ namespace PlanetBattleLogic.Models
 
         public void Move (double unitsToMove, Planet destinationPlanet)
         {
+            var endPlanetText = "";            
+            var startLocation = new Coordinates(this.Location.X, this.Location.Y);
+            var startPlanetText = "";
+            if (this.CurrentPlanet != null)
+            {
+                startPlanetText = string.Format(" ({0})", CurrentPlanet.Name);
+            }
+
             if (destinationPlanet == null)
             {
                 // No destination set.
@@ -34,6 +42,8 @@ namespace PlanetBattleLogic.Models
             if (destinationPlanet.Location == this.Location) 
             {
                 // Already arrived at destination
+                this.CurrentPlanet = destinationPlanet;
+                endPlanetText = string.Format(" ({0})", this.CurrentPlanet.Name);
                 return;
             }
 
@@ -47,12 +57,25 @@ namespace PlanetBattleLogic.Models
                 this.Location = destinationPlanet.Location;
                 this.Destination = null;
                 this.CurrentPlanet = destinationPlanet;
+                endPlanetText = string.Format(" ({0})", this.CurrentPlanet.Name);
                 destinationPlanet.Ships.Add(this);
+
+                var logText = string.Format
+                    (
+                    "Ship {0} moved from [{1:##0.0}, {2:##0.0}]{3} to [{4:##0.0}, {5:##0.0}]{6}",
+                    this.Id, 
+                    startLocation.X, 
+                    startLocation.Y, 
+                    startPlanetText,
+                    this.Location.X, 
+                    this.Location.Y,
+                    endPlanetText
+                    );
+                destinationPlanet.Game.LogActivity(logText);
                 return;
             }
 
             Coordinates destination = destinationPlanet.Location;
-
             double angle = Utilities.GetAngleOfLineBetweenTwoPoints
                 (
                 this.Location,
@@ -61,6 +84,19 @@ namespace PlanetBattleLogic.Models
             Coordinates newLocation = Utilities.GetDestinationLocation(this.Location, angle, unitsToMove);
             this.Location = newLocation;
             this.CurrentPlanet = null;
+
+            var logText1 = string.Format
+                (
+                    "Ship {0} moved from [{1:##0.0}, {2:##0.0}]{3} to [{4:##0.0}, {5:##0.0}]{6}",
+                    this.Id,
+                    startLocation.X,
+                    startLocation.Y,
+                    startPlanetText,
+                    this.Location.X,
+                    this.Location.Y,
+                    endPlanetText
+                );
+            destinationPlanet.Game.LogActivity(logText1);
         }
 
         private double GetDistanceToDestination()

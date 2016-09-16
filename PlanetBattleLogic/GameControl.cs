@@ -23,14 +23,14 @@ namespace PlanetBattleLogic
         public static Game SetupGame()
         {
             var universe = new Universe(100, 100);
-            universe.Planets = CreateAndAddPlanets();
-            universe.PositionPlanets();
             var game = new Game()
             {
                 ActiveGame = true,
                 NextShipId = 1,
                 Universe = universe
             };
+            universe.Planets = CreateAndAddPlanets(game);
+            universe.PositionPlanets();
             game.Players = CreateAndAddPlayers();
             AssignPlayersToPlanets(universe.Planets, game.Players);
             foreach (Player player in game.Players)
@@ -84,6 +84,7 @@ namespace PlanetBattleLogic
 
         }
 
+
         public static ICollection<Ship> GetShipsNotOnAnyPlanet(Game game)
         {
             var ships = new Collection<Ship>();
@@ -109,7 +110,14 @@ namespace PlanetBattleLogic
             int winnerIndex = r.Next(0, 1);
 
             Ship[] shipArray = new Ship[2] { ship1, ship2 };
-            return shipArray[winnerIndex];
+            Ship winningShip = shipArray[winnerIndex];
+
+            var game = ship1.CurrentPlanet.Game;
+            var logText = string.Format
+                ("Ship {0} battled Ship {1}; Ship {2} won.", ship1.Id, ship2.Id, winningShip.Id);
+            game.LogActivity(logText);
+
+            return winningShip;
         }
 
         public static void BattleForPlanet(Planet planet)
@@ -139,15 +147,19 @@ namespace PlanetBattleLogic
         {
             if (ships.Count <= 1)
             {
+                // Cannot fight a battle with 1 or 0 ships
                 return null;
             }
             Ship ship1 = ships.First();
-            foreach (Ship ship2 in ships)
+            var opponentShips = ships.Where(s => s.Owner.Name != ship1.Owner.Name);
+            if (opponentShips.Count() == 0)
             {
-                if (ship1.Owner != ship2.Owner)
-                {
-                    return new ShipBattle(ship1, ship2);
-                }
+                // No opponent ships to fight
+                return null;
+            }
+            foreach (Ship ship2 in opponentShips)
+            {
+                return new ShipBattle(ship1, ship2);
             }
             return null;
 
@@ -163,11 +175,11 @@ namespace PlanetBattleLogic
             return players;
         }
 
-        public static ICollection<Planet> CreateAndAddPlanets()
+        public static ICollection<Planet> CreateAndAddPlanets(Game game)
         {
-            var planetD = new Planet("Planet D") { Id = 1 };
-            var planetX = new Planet("Planet X") { Id = 2 };
-            var planetK = new Planet("Planet K") { Id = 3 };
+            var planetD = new Planet("Planet D", game) { Id = 1 };
+            var planetX = new Planet("Planet X", game) { Id = 2 };
+            var planetK = new Planet("Planet K", game) { Id = 3 };
 
             var planets = new Collection<Planet>();
             planets.Add(planetD);

@@ -74,3 +74,4 @@ C:\development\PlanetBattle\PlanetBattleApi\bin\Microsoft.Owin.Security.Microsof
 C:\development\PlanetBattle\PlanetBattleApi\bin\System.Web.Http.Owin.xml
 C:\development\PlanetBattle\PlanetBattleApi\obj\Debug\PlanetBattleApi.dll
 C:\development\PlanetBattle\PlanetBattleApi\obj\Debug\PlanetBattleApi.pdb
+C:\development\PlanetBattle\PlanetBattleApi\obj\Debug\PlanetBattleApi.csprojResolveAssemblyReference.cache

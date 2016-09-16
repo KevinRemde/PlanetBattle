@@ -41,6 +41,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="GameControl.cs" />
+    <Compile Include="Models\Activity.cs" />
     <Compile Include="Models\Coordinates.cs" />
     <Compile Include="Models\Game.cs" />
     <Compile Include="Models\Player.cs" />
