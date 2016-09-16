@@ -10,10 +10,12 @@ namespace PlanetBattleLogic.Models
     {
         public Universe()
         {
+            this.Ships = new Collection<Ship>();
             this.Planets = new Collection<Planet>();
         }
         public Universe(int width, int height)
         {
+            this.Ships = new Collection<Ship>();
             this.Planets = new Collection<Planet>();
             this.Width = width;
             this.Height = height;
@@ -22,7 +24,7 @@ namespace PlanetBattleLogic.Models
         public int Height { get; set; }
 
         public ICollection<Planet> Planets { get; set; }
-
+        public ICollection<Ship> Ships { get; set; }
 
         public void PositionPlanets()
         {

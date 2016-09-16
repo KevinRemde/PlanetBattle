@@ -47,6 +47,7 @@ namespace PlanetBattleLogic.Models
                 this.Location = destinationPlanet.Location;
                 this.Destination = null;
                 this.CurrentPlanet = destinationPlanet;
+                destinationPlanet.Ships.Add(this);
                 return;
             }
 

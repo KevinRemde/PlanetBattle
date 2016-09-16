@@ -22,7 +22,7 @@ namespace PlanetBattleConsole
             {
                 foreach (Player player in game.Players)
                 {
-                    ProcessTurn(player, game);
+                    ProcessTurn(player, game, game.Universe.Ships);
                 }
 
             }
@@ -34,7 +34,7 @@ namespace PlanetBattleConsole
             Console.ReadLine();
         }
 
-        public static void ProcessTurn(Player player, Game game)
+        public static void ProcessTurn(Player player, Game game, ICollection<Ship> ships)
         {
             Console.WriteLine();
             Console.WriteLine("{0}: It is your move", player.Name);
@@ -77,9 +77,8 @@ namespace PlanetBattleConsole
             Console.WriteLine("Here is the current status of the game:");
             PrintBoardStatus(game);
 
+            //FightAllBattles(game);
             FightAllBattles(game);
-            // Loop through ships. Any landed on planet?
-            // If so, fight battles with ships on planet
 
             Console.WriteLine();
             Console.WriteLine("******************************");
@@ -90,21 +89,25 @@ namespace PlanetBattleConsole
 
         private static void FightAllBattles(Game game)
         {
-            ICollection<Player> players = game.Players; 
-            foreach (Player player in players)
+            foreach (Planet planet in game.Universe.Planets)
             {
-                ICollection<Ship> ships = player.Ships;
-                foreach(Ship ship in ships)
-                {
-                    // Which ships are on a planet?
-                    if (ShipIsOnAPlanet(ship))
-                    {
-                        // Are ships of any other owners on this planet?
-                        //ICollection<Ship> OpponentShips = GetOpponentShipsOnPlanet(player, planet);
 
-                    }
-                }
             }
+            //ICollection<Player> players = game.Players; 
+            //foreach (Player player in players)
+            //{
+            //    ICollection<Ship> ships = player.Ships;
+            //    foreach(Ship ship in ships)
+            //    {
+            //        // Which ships are on a planet?
+            //        if (ShipIsOnAPlanet(ship))
+            //        {
+            //            // Are ships of any other owners on this planet?
+            //            //ICollection<Ship> OpponentShips = GetOpponentShipsOnPlanet(player, planet);
+
+            //        }
+            //    }
+            //}
         }
 
         private static ICollection<Ship> GetOpponentShipsOnPlanet(Player player, object planet)

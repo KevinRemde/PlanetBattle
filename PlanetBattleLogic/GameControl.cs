@@ -34,7 +34,7 @@ namespace PlanetBattleLogic
             AssignPlayersToPlanets(universe.Planets, game.Players);
             foreach (Player player in game.Players)
             {
-                var shipsForThisPlayer = CreateAndAddShips(player.HomePlanet, game.NextShipId);
+                var shipsForThisPlayer = CreateAndAddShips(player.HomePlanet, game.NextShipId, game);
                 player.Ships = shipsForThisPlayer;
                 player.HomePlanet.Ships = shipsForThisPlayer;
                 game.NextShipId += player.Ships.Count;
@@ -76,7 +76,7 @@ namespace PlanetBattleLogic
             startPlanet.Ships = copyShipsCollection;
 
             // Move all ships that were not on a planet when the move began
-            foreach ( Ship ship in shipsNotOnAnyPlanet)
+            foreach ( Ship ship in shipsNotOnAnyPlanet.Where(s=>s.Owner.Name == player.Name))
             {
                 ship.Move(unitsToMove, ship.Destination);
             }
@@ -183,7 +183,7 @@ namespace PlanetBattleLogic
             return rounds;
         }
 
-        public static ICollection<Ship> CreateAndAddShips(Planet planet,int firstShipID)
+        public static ICollection<Ship> CreateAndAddShips(Planet planet,int firstShipID, Game game)
         {
             int initialShipCount = GetInitialShipCount();
             var ships = new Collection<Ship>();
@@ -193,6 +193,8 @@ namespace PlanetBattleLogic
                 var ship = new Ship(i, planet.Owner, planet.Location);
                 ship.CurrentPlanet = planet;
                 ships.Add(ship);
+                game.Universe.Ships.Add(ship);
+                
             }
             planet.Ships = ships;
 

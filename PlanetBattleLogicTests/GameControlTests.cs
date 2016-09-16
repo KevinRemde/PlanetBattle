@@ -28,12 +28,13 @@ namespace PlanetBattleLogic.Tests
         public void ExecuteTurnTest()
         {
             var game = new Game();
+            game.Universe = new Universe();
             var player = new Player("Bill");
             game.Players.Add(player);
             var startPlanet = new Planet("Planet B");
             startPlanet.Owner = player;
             startPlanet.Location = new Coordinates(10, 10);
-            GameControl.CreateAndAddShips(startPlanet, 1);
+            GameControl.CreateAndAddShips(startPlanet, 1, game);
             var destPlanet = new Planet("PlanetDest");
             destPlanet.Location = new Coordinates(10, 100);
             int numberOfShipsToMove = 5;
@@ -47,10 +48,14 @@ namespace PlanetBattleLogic.Tests
         [TestMethod()]
         public void CreateAndAddShipsTest()
         {
+            var universe = new Universe();
+            var game = new Game();
+            game.Universe = universe;
             var player = new Player("Steve");
+            game.Players.Add(player);
             var planet = new Planet("TestPlanet");
             planet.Owner = player;
-            GameControl.CreateAndAddShips(planet, 1);
+            GameControl.CreateAndAddShips(planet, 1, game);
             int intitialShipCount = GameControl.GetInitialShipCount();
             Assert.AreEqual(intitialShipCount, planet.Ships.Count);
             Assert.AreEqual
