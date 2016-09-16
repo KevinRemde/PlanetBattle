@@ -17,7 +17,7 @@ namespace PlanetBattleLogic
 
         public static int GetInitialShipCount()
         {
-            return 3;
+            return 20;
         }
 
         public static Game SetupGame()
