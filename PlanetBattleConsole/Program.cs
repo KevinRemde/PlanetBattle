@@ -59,30 +59,18 @@ namespace PlanetBattleConsole
             {
                 Console.WriteLine("{0}) {1}", planet.Id, planet.Name);
             }
-            Console.WriteLine("From which planet do you want to launch ships?");
-            Console.WriteLine("Enter an ID and press ENTER");
-            string selectedIdString = Console.ReadLine();
-            int selectedId = Convert.ToInt32(selectedIdString);
-            Planet selectedStartPlanet = game.Universe.Planets
-                .Where(p => p.Id == selectedId).FirstOrDefault();
+
+            Planet selectedStartPlanet = PromptForStartPlanet(game);
             Console.WriteLine("You selected {0}", selectedStartPlanet.Name);
             Console.WriteLine();
 
-            Console.WriteLine("How many ships would you like to launch from {0}?", selectedStartPlanet.Name);
-            string numberOfShipsAsString = Console.ReadLine();
-            int numberOfShips = Convert.ToInt32(numberOfShipsAsString);
+            int numberOfShips = PromptForNumberOfShips();
             Console.WriteLine("You elected to launch {0} ships from {1}.", numberOfShips, selectedStartPlanet.Name);
+
             Console.WriteLine();
-            Console.WriteLine("Toward which planet would you like to send these ships?");
-            Console.WriteLine("Enter an ID and press ENTER");
-            foreach (Planet planet in game.Universe.Planets)
-            {
-                Console.WriteLine("{0}) {1}", planet.Id, planet.Name);
-            }
-            string selectedDestIdAsString = Console.ReadLine();
-            int selectedDestId = Convert.ToInt32(selectedDestIdAsString);
-            Planet selectedDestPlanet = game.Universe.Planets
-                .Where(p => p.Id == selectedDestId).FirstOrDefault();
+
+            Planet selectedDestPlanet = PromptForDestinationPlanet(game);
+
             Console.WriteLine("You elected to launch {0} ships from {1} toward {2}.", numberOfShips, selectedStartPlanet.Name, selectedDestPlanet.Name);
 
             GameControl.ExecuteTurn(player, selectedStartPlanet, selectedDestPlanet, numberOfShips, game);
@@ -98,6 +86,96 @@ namespace PlanetBattleConsole
             Console.WriteLine("******************************");
             Console.WriteLine("******************************");
             Console.WriteLine();
+        }
+
+        private static Planet PromptForDestinationPlanet(Game game)
+        {
+            Planet selectedDestPlanet = null;
+            bool validDestinationPlanetEntered = false;
+            while (!validDestinationPlanetEntered)
+            {
+                Console.WriteLine("Toward which planet would you like to send these ships?");
+                Console.WriteLine("Enter an ID and press ENTER");
+                foreach (Planet planet in game.Universe.Planets)
+                {
+                    Console.WriteLine("{0}) {1}", planet.Id, planet.Name);
+                }
+                string selectedDestIdAsString = Console.ReadLine();
+                int selectedDestId;
+                if (int.TryParse(selectedDestIdAsString, out selectedDestId))
+                {
+                    selectedDestPlanet = game.Universe.Planets
+                        .Where(p => p.Id == selectedDestId).FirstOrDefault();
+                    if (selectedDestPlanet != null)
+                    {
+                        validDestinationPlanetEntered = true;
+                    }
+                    else
+                    {
+                        Console.WriteLine("Invalid planet");
+                    }
+                }
+                else
+                {
+                    Console.WriteLine("Invalid planet number");
+                }
+            }
+
+            return selectedDestPlanet;
+        }
+
+        private static int PromptForNumberOfShips()
+        {
+            bool validNumberOfShipsEntered = false;
+            int numberOfShips = 0;
+            while (!validNumberOfShipsEntered)
+            {
+                Console.WriteLine("How many ships would you like to launch from this planet?");
+                string numberOfShipsAsString = Console.ReadLine();
+                if (int.TryParse(numberOfShipsAsString, out numberOfShips))
+                {
+                    validNumberOfShipsEntered = true;
+                }
+                else
+                {
+                    Console.WriteLine("Not a valid number.");
+                }
+            }
+            return numberOfShips;
+        }
+
+        private static Planet PromptForStartPlanet(Game game)
+        {
+            Console.WriteLine("From which planet do you want to launch ships?");
+            Console.WriteLine("Enter an ID and press ENTER");
+            bool validPlanetIdEntered = false;
+            Planet selectedStartPlanet = new Planet();
+            while (!validPlanetIdEntered)
+            {
+                string selectedIdString = Console.ReadLine();
+
+                //int selectedId = Convert.ToInt32(selectedIdString);
+                int selectedId = 0;
+                if (int.TryParse(selectedIdString, out selectedId))
+                {
+                    selectedStartPlanet = game.Universe.Planets
+                        .Where(p => p.Id == selectedId).FirstOrDefault();
+                    if (selectedStartPlanet != null)
+                    {
+                        validPlanetIdEntered = true;
+                    }
+                    else
+                    {
+                        Console.WriteLine("Invalid planet");
+                    }
+                }
+                else
+                {
+                    Console.WriteLine("Invalid planet number");
+                }
+            }
+
+            return selectedStartPlanet;
         }
 
         private static void FightAllBattles(Game game)
@@ -158,6 +236,8 @@ namespace PlanetBattleConsole
             Universe universe = game.Universe;
             PrintAllPlanets(universe.Planets);
 
+            Console.WriteLine();
+
             PrintShipsBetweenPlanets(game);
 
         }
@@ -211,6 +291,7 @@ namespace PlanetBattleConsole
             Console.WriteLine("=======");
             foreach (Player player in players)
             {
+                Console.Write ("    ");
                 Console.WriteLine(player.Name);
             }
             Console.WriteLine();
@@ -221,14 +302,14 @@ namespace PlanetBattleConsole
             Console.WriteLine("=======");
             Console.WriteLine("Planets");
             Console.WriteLine("=======");
+            Console.WriteLine();
             foreach (Planet planet in planets)
             {
-                Console.WriteLine("Planet: {0}", planet.Name);
-                Console.WriteLine("Owner: {0}", planet.Owner?.Name ?? "None");
-                Console.WriteLine("Location: {0:##0.0}, {1:##0.0}", planet.Location.X, planet.Location.Y);
-                Console.WriteLine("-----");
-                Console.WriteLine("Ships");
-                Console.WriteLine("-----");
+                Console.WriteLine("  Planet: {0}", planet.Name);
+                Console.WriteLine("  Owner: {0}", planet.Owner?.Name ?? "None");
+                Console.WriteLine("  Location: {0:##0.0}, {1:##0.0}", planet.Location.X, planet.Location.Y);
+                Console.WriteLine("  {0} Ships:", planet.Name);
+                //Console.WriteLine("  -----");
                 if (planet.Ships.Count() == 0)
                 {
                     Console.WriteLine("    **none**");
